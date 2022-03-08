@@ -24,12 +24,17 @@ const getPokemonQuery = `
 `;
 
 const Card = (props) => {
-  const type =  props.pokemon.pokemons[0].types[0].type.name
-  
+  const type = props.pokemon.pokemons[0].types[0].type.name
+
   return (
-    <div className={"bg-light--" + type}>
-      <img alt="" src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"+props.pokemon.id+".png"}/>
+    <li classList={{
+      ["bg-light--" + type]: true,
+      "grid-item": true
+    }}>
+      <img alt="" src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + props.pokemon.id + ".png"} />
+      <p>#{String(props.pokemon.id).padStart(3, '0')}</p>
       <p>{props.pokemon.name} {type}</p>
+
       <p>-
         <For each={props.pokemon.pokemons[0].types}>
           {t => <span className={"bg--" + t.type.name}>
@@ -38,7 +43,7 @@ const Card = (props) => {
         </For>
       </p>
 
-    </div>
+    </li>
   );
 }
 
@@ -50,7 +55,7 @@ export default function Home() {
   return (
     <section class="bg-gray-100 text-gray-700 p-8">
       <Show when={!itemsState().fetching}>
-        <ul>
+        <ul class="inline-grid grid-cols-3">
           <For each={items().species}>
             {pokemon =>
               <Card pokemon={pokemon} />
