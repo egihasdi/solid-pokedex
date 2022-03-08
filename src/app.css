@@ -192,3 +192,30 @@
 .bg--poison {
   background-color: var(--color-pokemon-poison);
 }
+
+.shimmer {
+  min-height: 200px;
+  animation: a-background-move 1.5s infinite;
+  background-image: linear-gradient(
+    to right,
+    rgb(247, 247, 247),
+    rgb(220, 220, 220),
+    rgb(247, 247, 247)
+  );
+  background-size: 200%;
+  border-radius: var(--border-radius-xl);
+}
+
+@keyframes a-background-move {
+  0% {
+    background-position: 100%;
+  }
+
+  100% {
+    background-position: -100%;
+  }
+}
+
+.pokemon-img  {
+	width: 80%;
+}
