@@ -1,0 +1,194 @@
+ :root { 
+  --color-pokemon-ghost: #65539d;
+  --color-pokemon-steel: #908da9;
+  --color-pokemon-dragon: #3b3bbb;
+  --color-pokemon-flying: #7a9ff2;
+  --color-pokemon-water: #3a8be9;
+  --color-pokemon-ice: #3a8be9;
+  --color-pokemon-unknown: #255147;
+  --color-pokemon-grass: #4fb443;
+  --color-pokemon-bug: #889e2a;
+  --color-pokemon-normal: #afa485;
+  --color-pokemon-electric: #f4c234;
+  --color-pokemon-ground: #b7904b;
+  --color-pokemon-rock: #b7904b;
+  --color-pokemon-fire: #e76b2f;
+  --color-pokemon-fighting: #9b4840;
+  --color-pokemon-dark: #5e4c4c;
+  --color-pokemon-psychic: #f5779e;
+  --color-pokemon-fairy: #f9a8ef;
+  --color-pokemon-poison: #a15ab1;
+
+  --color-bg-pokemon-ghost: #cbc1e8;
+  --color-bg-pokemon-steel: #d9d7e5;
+  --color-bg-pokemon-dragon: #b9b9fc;
+  --color-bg-pokemon-flying: #cbdeff;
+  --color-bg-pokemon-water: #afd9ff;
+  --color-bg-pokemon-ice: #afd9ff;
+  --color-bg-pokemon-unknown: #255147;
+  --color-bg-pokemon-grass: #b5eaaf;
+  --color-bg-pokemon-bug: #d4dfa7;
+  --color-bg-pokemon-normal: #e4e0cf;
+  --color-bg-pokemon-electric: #ffe9a7;
+  --color-bg-pokemon-ground: #ecd8b4;
+  --color-bg-pokemon-rock: #ecd8b4;
+  --color-bg-pokemon-fire: #ffc8a9;
+  --color-bg-pokemon-fighting: #e7bdb8;
+  --color-bg-pokemon-dark: #c9c0c0;
+  --color-bg-pokemon-psychic: #ffcbde;
+  --color-bg-pokemon-fairy: #ffddff;
+  --color-bg-pokemon-poison: #e6c2ef;
+ }
+
+.bg-light {
+  background-color: var(--color-bg-pokemon-unknown);
+}
+
+.bg-light--ghost {
+  background-color: var(--color-bg-pokemon-ghost);
+}
+
+.bg-light--steel {
+  background-color: var(--color-bg-pokemon-steel);
+}
+
+.bg-light--dragon {
+  background-color: var(--color-bg-pokemon-dragon);
+}
+
+.bg-light--flying {
+  background-color: var(--color-bg-pokemon-flying);
+}
+
+.bg-light--water {
+  background-color: var(--color-bg-pokemon-water);
+}
+
+.bg-light--ice {
+  background-color: var(--color-bg-pokemon-ice);
+}
+
+.bg-light--grass {
+  background-color: var(--color-bg-pokemon-grass);
+}
+
+.bg-light--bug {
+  background-color: var(--color-bg-pokemon-bug);
+}
+
+.bg-light--normal {
+  background-color: var(--color-bg-pokemon-normal);
+}
+
+.bg-light--electric {
+  background-color: var(--color-bg-pokemon-electric);
+}
+
+.bg-light--ground {
+  background-color: var(--color-bg-pokemon-ground);
+}
+
+.bg-light--rock {
+  background-color: var(--color-bg-pokemon-rock);
+}
+
+.bg-light--fire {
+  background-color: var(--color-bg-pokemon-fire);
+}
+
+.bg-light--fighting {
+  background-color: var(--color-bg-pokemon-fighting);
+}
+
+.bg-light--dark {
+  background-color: var(--color-bg-pokemon-dark);
+}
+
+.bg-light--psychic {
+  background-color: var(--color-bg-pokemon-psychic);
+}
+
+.bg-light--fairy {
+  background-color: var(--color-bg-pokemon-fairy);
+}
+
+.bg-light--poison {
+  background-color: var(--color-bg-pokemon-poison);
+}
+
+.bg {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.bg--ghost {
+  background-color: var(--color-pokemon-ghost);
+}
+
+.bg--steel {
+  background-color: var(--color-pokemon-steel);
+}
+
+.bg--dragon {
+  background-color: var(--color-pokemon-dragon);
+}
+
+.bg--flying {
+  background-color: var(--color-pokemon-flying);
+}
+
+.bg--water {
+  background-color: var(--color-pokemon-water);
+}
+
+.bg--ice {
+  background-color: var(--color-pokemon-ice);
+}
+
+.bg--grass {
+  background-color: var(--color-pokemon-grass);
+}
+
+.bg--bug {
+  background-color: var(--color-pokemon-bug);
+}
+
+.bg--normal {
+  background-color: var(--color-pokemon-normal);
+}
+
+.bg--electric {
+  background-color: var(--color-pokemon-electric);
+}
+
+.bg--ground {
+  background-color: var(--color-pokemon-ground);
+}
+
+.bg--rock {
+  background-color: var(--color-pokemon-rock);
+}
+
+.bg--fire {
+  background-color: var(--color-pokemon-fire);
+}
+
+.bg--fighting {
+  background-color: var(--color-pokemon-fighting);
+}
+
+.bg--dark {
+  background-color: var(--color-pokemon-dark);
+}
+
+.bg--psychic {
+  background-color: var(--color-pokemon-psychic);
+}
+
+.bg--fairy {
+  background-color: var(--color-pokemon-fairy);
+}
+
+.bg--poison {
+  background-color: var(--color-pokemon-poison);
+}
