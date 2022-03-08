@@ -14,7 +14,10 @@
     "vite-plugin-windicss": "^1.5.4"
   },
   "dependencies": {
+    "@urql/core": "^2.4.3",
+    "graphql": "^16.3.0",
     "solid-app-router": "^0.1.14",
-    "solid-js": "^1.2.6"
+    "solid-js": "^1.2.6",
+    "solid-urql": "^0.2.0"
   }
 }
