@@ -219,3 +219,8 @@
 .pokemon-img  {
 	width: 80%;
 }
+
+.bg-header{ 
+  border-bottom-left-radius: 50% 7%;
+  border-bottom-right-radius: 50% 7%;
+}

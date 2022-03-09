@@ -30,21 +30,23 @@ const Card = (props) => {
   const type = props.pokemon.pokemons[0].types[0].type.name
 
   return (
-    <li class="rounded-sm" classList={{
+    <li class="grid-item rounded-xl py-1" classList={{
       ["bg-light--" + type]: true,
     }}>
-      <Link class="nav" href={"pokemon/" + props.pokemon.name}>
-        <img class="pokemon-img" src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + props.pokemon.id + ".png"} />
-        <p>#{String(props.pokemon.id).padStart(3, '0')}</p>
-        <p>{props.pokemon.name}</p>
+      <Link class="nav no-underline relative" href={"/pokemon/" + props.pokemon.name}>
+        <p class="text-gray-400 text-md p-1 absolute">#{String(props.pokemon.id).padStart(3, '0')}</p>
+        <img class="pokemon-img mx-auto py-1 px-6" src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + props.pokemon.id + ".png"} />
+        <p class="capitalize text-center text-lg text-gray-900 font-bold">{props.pokemon.name}</p>
 
-        <p>-
+        <ul class="py-2 text-center text-white">
           <For each={props.pokemon.pokemons[0].types}>
-            {t => <span className={"bg--" + t.type.name}>
-              {t.type.name}
-            </span>}
+            {t => 
+              <li class="inline-block mx-1 px-3 py-1 rounded-xl text-xs capitalize" className={"bg--" + t.type.name}>
+                {t.type.name}
+              </li>
+            }
           </For>
-        </p>
+        </ul>
       </Link>
     </li>
   );
@@ -81,8 +83,8 @@ export default function Home() {
   })
 
   return (
-    <section class="text-gray-700 p-8 md:container md:px-10 mx-auto">
-      <ul class="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-1 grid-cols-2 gap-2">
+    <section class="text-gray-700 p-5 mx-auto max-w-screen-sm">
+      <ul class="grid grid-cols-2 gap-2">
         <For each={pokemons()}>
           {pokemon =>
             <Card pokemon={pokemon} />

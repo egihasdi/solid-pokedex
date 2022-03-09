@@ -1,7 +1,7 @@
 import { gql } from "@urql/core";
 import Chart from "chart.js/auto";
-import { useParams } from "solid-app-router";
-import { createSignal, For, onMount, Show, Suspense } from "solid-js";
+import { Link, useParams } from "solid-app-router";
+import { createEffect, createSignal, For, onMount, Show, Suspense } from "solid-js";
 import client from "../client";
 
 
@@ -48,6 +48,13 @@ const queryGetPokemon = gql`
               }
               location: pokemon_v2_location {
                 name
+              }
+            },
+            pokemons: pokemon_v2_pokemons {
+              types: pokemon_v2_pokemontypes {
+                type: pokemon_v2_type {
+                  name
+                }
               }
             }
           }
@@ -123,12 +130,13 @@ const config = {
   },
 };
 
+let chart = null;
 export default function Pokemon(props) {
   let statChart;
   const params = useParams();
   const [detail, setDetail] = createSignal(null);
 
-  onMount(() => {
+  let loadData = () => {
     client.query(queryGetPokemon, { name: params.name })
       .toPromise()
       .then(data => data.data.species[0])
@@ -144,44 +152,73 @@ export default function Pokemon(props) {
         chartdata.datasets[0].data[4] = data.pokemons[0].stats[0].base_stat;
         chartdata.datasets[0].data[5] = data.pokemons[0].stats[3].base_stat;
 
-        new Chart(
+        chart = new Chart(
           statChart,
           {
             type: 'radar',
             data: chartdata,
             options: {
+              elements: {
+                line: {
+                  borderWidth: 3
+                }
+              },
+
               scales: {
-                scale: {
+                r: {
                   min: 0,
                   max: 150,
+                  ticks: {
+                    stepSize: 20,
+                    font: {
+                      size: 6
+                    }
+                  },
+                  pointLabels: {
+                    fontSize: 20
+                  }
                 }
               }
             }
           }
         );
       });
+  }
+
+  createEffect(() => {
+    if (chart != null) {
+      chart.destroy();
+    }
+    loadData()
+  })
+
+  onMount(() => {
   })
 
   return (
-    <section class="text-gray-700 container mx-auto p-8">
+    <section class="text-gray-700 max-w-screen-sm mx-auto">
       <Show when={detail() != null}>
-        <div class="grid grid-cols-2">
-          <div className={"bg-light--" + detail().pokemons[0].types[0].type.name}  >
-            <div>#{String(detail().id).padStart(3, '0')}</div>
-            <div>{detail().name}</div>
-
-            <p>-
-              <For each={detail().pokemons[0].types}>
-                {t => <span className={"bg--" + t.type.name}>
-                  {t.type.name}
-                </span>}
-              </For>
-            </p>
-
-            <img class="pokemon-img" src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + detail().id + ".png"} />
+        <div class="grid grid-cols-1">
+          <div class="bg-header pt-5 px-5 relative" className={"bg-light--" + detail().pokemons[0].types[0].type.name}  >
+            <div class="grid grid-cols-2">
+              <h2 class="text-4xl font-bold capitalize">{detail().name}</h2>
+              <div class="text-right"><span class="text-gray-500 text-xl">#{String(detail().id).padStart(3, '0')}</span></div>
+            </div>
+            <img class="pokemon-img mx-auto relative max-w-sm -mb-20" src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + detail().id + ".png"} />
           </div>
-          <div>
-            {detail().description[0].flavor_text}
+
+          <div class="mt-20">
+            <ul class="py-2 text-center text-white">
+              <For each={detail().pokemons[0].types}>
+                {t => 
+                  <li class="inline-block mx-1 px-3 py-1 rounded-xl text-sm capitalize" className={"bg--" + t.type.name}>
+                    {t.type.name}
+                  </li>
+                }
+              </For>
+            </ul>
+
+            <p class="text-center px-3 mt-2">{detail().description[0].flavor_text}</p>
 
             <p>Height: {detail().pokemons[0].height}</p>
             <p>Weight: {detail().pokemons[0].weight}</p>
@@ -197,8 +234,8 @@ export default function Pokemon(props) {
 
             <div>
               <p>Breeding:</p>
-              <p>Gender: M: {((8-detail().gender_rate)/8)*100}% F: {(detail().gender_rate/8)*100}% </p>
-              <p>Egg Group: {}
+              <p>Gender: M: {((8 - detail().gender_rate) / 8) * 100}% F: {(detail().gender_rate / 8) * 100}% </p>
+              <p>Egg Group: { }
                 <For each={detail().egg_groups}>
                   {item => (
                     <li>
@@ -207,14 +244,38 @@ export default function Pokemon(props) {
                   )}
                 </For>
               </p>
+              <p>Egg Cycles: {detail().hatch_counter}</p>
             </div>
           </div>
         </div>
-        <div class="grid grid-cols-2">
-          <div class="bg-gray-100 p-10">
+        <div class="grid grid-cols-1">
+          <div class="bg-gray-100">
             <canvas ref={statChart}></canvas>
           </div>
           <div>
+          </div>
+        </div>
+        <div class="grid grid-cols-1">
+          <div>
+            <h2>Evolution</h2>
+            <ul class="grid grid-cols-3">
+              <For each={detail().evolutions.species}>
+                {item =>
+
+                  <li>
+                    <Link class="nav" href={"/pokemon/" + item.name}>
+                      <div >
+
+                        <img class="pokemon-img rounded-full p-8" className={"bg-light--" + item.pokemons[0].types[0].type.name} src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + item.id + ".png"} />
+                      </div>
+                      <div>
+                        {item.name} #{String(item.id).padStart(3, '0')}
+                      </div>
+                    </Link>
+                  </li>
+                }
+              </For>
+            </ul>
           </div>
         </div>
       </Show>
