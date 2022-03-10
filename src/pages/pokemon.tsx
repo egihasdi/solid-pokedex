@@ -297,7 +297,7 @@ export default function Pokemon(props) {
         <div class="grid grid-cols-1 mt-10">
           <div>
             <p class="text-2xl font-bold text-center mb-5">Evolutions</p>
-            <ul class="grid" className={"grid-cols-" + detail().evolutions.species.length}>
+            <ul class="grid grid-cols-3">
               <For each={detail().evolutions.species}>
                 {item =>
 
