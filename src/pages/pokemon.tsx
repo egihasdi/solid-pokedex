@@ -147,7 +147,6 @@ export default function Pokemon(props) {
       .then(data => {
         setDetail(data)
 
-        console.log(data);
         chartdata.datasets[0].label = capitalize(data.name);
         chartdata.datasets[0].data[0] = data.pokemons[0].stats[1].base_stat;
         chartdata.datasets[0].data[1] = data.pokemons[0].stats[5].base_stat;
@@ -255,7 +254,7 @@ export default function Pokemon(props) {
               </div>
               <div class="text-center">
                 <p class="font-bold text-xl">
-                  <span class="icon icon-gender-male inline-block text-blue-600" style="display: inline-block; !important;"></span>&nbsp; {((8 - detail().gender_rate) / 8) * 100}% 
+                  <span class="icon icon-gender-male inline-block text-blue-600" style="display: inline-block; !important;"></span>&nbsp; {((8 - detail().gender_rate) / 8) * 100}%
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <span class="icon icon-gender-female inline-block text-pink-600 mb-1" style="display: inline-block; !important;"></span> {(detail().gender_rate / 8) * 100}%
                 </p>
@@ -330,6 +329,81 @@ export default function Pokemon(props) {
             </ul>
           </div>
         </div>
+      </Show>
+      <Show when={detail() == null}>
+        <div class="bg-header pt-5 px-5 relative h-80 bg-gray-300"  >
+          <div class="grid mb-3">
+            <div>
+              <Link href="/">
+                <i class="icon text-gray-600 icon-chevron-left"></i>
+              </Link>
+            </div>
+          </div>
+          <div class="grid grid-cols-2">
+            <h2 class="text-4xl font-bold capitalize shimmer2">&nbsp;</h2>
+            <div class="text-right"><span class="text-gray-500 text-xl shimmer">&nbsp;</span></div>
+          </div>
+          <img class="pokemon-img mx-auto relative max-w-sm -mb-20 shimmer" src={""} />
+        </div>
+
+        <div class="mt-20">
+          <ul class="py-2 text-center text-white">
+            <li class="inline-block mx-1 px-3 py-1 rounded-xl text-sm capitalize shimmer2" >
+              &nbsp;&nbsp;&nbsp;
+            </li>
+            <li class="inline-block mx-1 px-3 py-1 rounded-xl text-sm capitalize shimmer2" >
+              &nbsp;&nbsp;&nbsp;
+            </li>
+            
+          </ul>
+
+          <p class="text-center px-3 mt-2 shimmer2">&nbsp;</p>
+
+          <div class="grid grid-cols-2 gap-3 mt-5">
+            <div class="text-center">
+              <p class="font-bold text-xl shimmer2">
+                &nbsp;
+              </p>
+              <p class="text-sm text-gray-400">Height</p>
+            </div>
+            <div class="text-center">
+              <p class="font-bold text-xl shimmer2">
+                &nbsp;
+              </p>
+              <p class="text-sm text-gray-400">Weight</p>
+            </div>
+            <div class="text-center">
+              <p class="font-bold text-xl shimmer2">
+                &nbsp;
+              </p>
+              <p class="text-sm text-gray-400">Gender</p>
+            </div>
+            <div class="text-center">
+              <p class="font-bold text-xl shimmer2">
+                &nbsp;
+              </p>
+              <p class="text-sm text-gray-400">Abilities</p>
+            </div>
+            <div class="text-center">
+              <p class="font-bold text-xl shimmer2">
+                &nbsp;
+              </p>
+              <p class="text-sm text-gray-400">Egg Groups</p>
+            </div>
+            <div class="text-center">
+              <p class="font-bold text-xl shimmer2">
+                &nbsp;
+              </p>
+              <p class="text-sm text-gray-400">Egg Cycles</p>
+            </div>
+          </div>
+
+
+          <div>
+
+          </div>
+        </div>
+
       </Show>
 
       <Suspense>
