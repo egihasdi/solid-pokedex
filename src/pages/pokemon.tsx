@@ -5,6 +5,10 @@ import { createEffect, createSignal, For, onMount, Show, Suspense } from "solid-
 import client from "../client";
 
 
+const capitalize = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
 
 const queryGetPokemon = gql`
     query getPokemon($name: String!) {
@@ -144,7 +148,7 @@ export default function Pokemon(props) {
         setDetail(data)
 
         console.log(data);
-        chartdata.datasets[0].label = data.name;
+        chartdata.datasets[0].label = capitalize(data.name);
         chartdata.datasets[0].data[0] = data.pokemons[0].stats[1].base_stat;
         chartdata.datasets[0].data[1] = data.pokemons[0].stats[5].base_stat;
         chartdata.datasets[0].data[2] = data.pokemons[0].stats[4].base_stat;
@@ -159,15 +163,23 @@ export default function Pokemon(props) {
             data: chartdata,
             options: {
               elements: {
+
                 line: {
                   borderWidth: 3
                 }
               },
-
+              plugins: {
+                legend: {
+                  display: true,
+                  position: 'bottom',
+                  labels: {
+                  }
+                }
+              },
               scales: {
                 r: {
                   min: 0,
-                  max: 150,
+                  max: 200,
                   ticks: {
                     stepSize: 20,
                     font: {
@@ -195,11 +207,19 @@ export default function Pokemon(props) {
   onMount(() => {
   })
 
+
   return (
-    <section class="text-gray-700 max-w-screen-sm mx-auto">
+    <section class="text-gray-700 max-w-screen-sm mx-auto pb-40">
       <Show when={detail() != null}>
-        <div class="grid grid-cols-1">
+        <div class="grid grid-cols-1 mb-5">
           <div class="bg-header pt-5 px-5 relative" className={"bg-light--" + detail().pokemons[0].types[0].type.name}  >
+            <div class="grid mb-3">
+              <div>
+                <Link href="/">
+                  <i class="icon text-gray-600 icon-chevron-left"></i>
+                </Link>
+              </div>
+            </div>
             <div class="grid grid-cols-2">
               <h2 class="text-4xl font-bold capitalize">{detail().name}</h2>
               <div class="text-right"><span class="text-gray-500 text-xl">#{String(detail().id).padStart(3, '0')}</span></div>
@@ -210,7 +230,7 @@ export default function Pokemon(props) {
           <div class="mt-20">
             <ul class="py-2 text-center text-white">
               <For each={detail().pokemons[0].types}>
-                {t => 
+                {t =>
                   <li class="inline-block mx-1 px-3 py-1 rounded-xl text-sm capitalize" className={"bg--" + t.type.name}>
                     {t.type.name}
                   </li>
@@ -220,56 +240,88 @@ export default function Pokemon(props) {
 
             <p class="text-center px-3 mt-2">{detail().description[0].flavor_text}</p>
 
-            <p>Height: {detail().pokemons[0].height}</p>
-            <p>Weight: {detail().pokemons[0].weight}</p>
-            <ul>
-              <For each={detail().pokemons[0].abilities}>
-                {item => (
-                  <li>
-                    {item.ability.name}
-                  </li>
-                )}
-              </For>
-            </ul>
+            <div class="grid grid-cols-2 gap-3 mt-5">
+              <div class="text-center">
+                <p class="font-bold text-xl">
+                  {detail().pokemons[0].height / 10} m
+                </p>
+                <p class="text-sm text-gray-400">Height</p>
+              </div>
+              <div class="text-center">
+                <p class="font-bold text-xl">
+                  {detail().pokemons[0].weight / 10} kg
+                </p>
+                <p class="text-sm text-gray-400">Weight</p>
+              </div>
+              <div class="text-center">
+                <p class="font-bold text-xl">
+                  <span class="icon icon-gender-male inline-block text-blue-600" style="display: inline-block; !important;"></span>&nbsp; {((8 - detail().gender_rate) / 8) * 100}% 
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <span class="icon icon-gender-female inline-block text-pink-600 mb-1" style="display: inline-block; !important;"></span> {(detail().gender_rate / 8) * 100}%
+                </p>
+                <p class="text-sm text-gray-400">Gender</p>
+              </div>
+              <div class="text-center">
+                <p class="font-bold text-xl">
+                  {detail().pokemons[0].abilities.map(x => capitalize(x.ability.name)).join(', ')}
+                </p>
+                <p class="text-sm text-gray-400">Abilities</p>
+              </div>
+              <div class="text-center">
+                <p class="font-bold text-xl">
+                  {detail().egg_groups.map(x => capitalize(x.group.name)).join(', ')}
+                </p>
+                <p class="text-sm text-gray-400">Egg Groups</p>
+              </div>
+              <div class="text-center">
+                <p class="font-bold text-xl">
+                  {detail().hatch_counter}
+                </p>
+                <p class="text-sm text-gray-400">Egg Cycles</p>
+              </div>
+            </div>
+
 
             <div>
-              <p>Breeding:</p>
-              <p>Gender: M: {((8 - detail().gender_rate) / 8) * 100}% F: {(detail().gender_rate / 8) * 100}% </p>
-              <p>Egg Group: { }
-                <For each={detail().egg_groups}>
-                  {item => (
-                    <li>
-                      {item.group.name}
-                    </li>
-                  )}
-                </For>
-              </p>
-              <p>Egg Cycles: {detail().hatch_counter}</p>
+
             </div>
           </div>
         </div>
-        <div class="grid grid-cols-1">
-          <div class="bg-gray-100">
+        <div class="grid grid-cols-1 mt-10">
+          <div class="">
+            <p class="text-center text-2xl font-bold mb-5">Stats</p>
             <canvas ref={statChart}></canvas>
           </div>
           <div>
           </div>
         </div>
-        <div class="grid grid-cols-1">
+        <div class="grid grid-cols-1 mt-10">
           <div>
-            <h2>Evolution</h2>
-            <ul class="grid grid-cols-3">
+            <p class="text-2xl font-bold text-center mb-5">Evolutions</p>
+            <ul class="grid" className={"grid-cols-" + detail().evolutions.species.length}>
               <For each={detail().evolutions.species}>
                 {item =>
 
                   <li>
-                    <Link class="nav" href={"/pokemon/" + item.name}>
+                    <Link class="nav no-underline" href={"/pokemon/" + item.name}>
                       <div >
-
-                        <img class="pokemon-img rounded-full p-8" className={"bg-light--" + item.pokemons[0].types[0].type.name} src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + item.id + ".png"} />
+                        <img class="pokemon-img rounded-full p-5 mx-auto" className={"bg-light--" + item.pokemons[0].types[0].type.name} src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + item.id + ".png"} />
                       </div>
-                      <div>
-                        {item.name} #{String(item.id).padStart(3, '0')}
+                      <div class="mt-5">
+                        <p class="text-center capitalize">
+                          <span class="font-bold text-gray-800 text-lg">{item.name}</span> <span class="text-gray-400">#{String(item.id).padStart(3, '0')}</span>
+                        </p>
+                      </div>
+                      <div class="mt-1">
+                        <ul class="py-2 text-center text-white">
+                          <For each={item.pokemons[0].types}>
+                            {t =>
+                              <li class="inline-block mx-1 px-3 py-1 rounded-xl text-sm capitalize" className={"bg--" + t.type.name}>
+                                {t.type.name}
+                              </li>
+                            }
+                          </For>
+                        </ul>
                       </div>
                     </Link>
                   </li>
